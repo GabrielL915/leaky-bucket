@@ -2,6 +2,7 @@
   "name": "leaky-bucket",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,9 +12,9 @@
   "license": "ISC",
   "packageManager": "pnpm@10.10.0",
   "dependencies": {
-    "apollo-server-express": "^3.13.0",
     "express": "^5.1.0",
     "graphql": "^16.11.0",
+    "graphql-http": "^1.22.4",
     "jsonwebtoken": "^9.0.2"
   },
   "devDependencies": {
