@@ -1,7 +1,12 @@
-import app from "./app";
+import bootstrap from "./app";
 
-const PORT = process.env.PORT || 3000;
+async function main() {
+    const app = await bootstrap();
+    const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-    console.log(`Server is running in http://localhost:${PORT}/graphql`);
-})
+    app.listen(PORT, () => {
+        console.log(`Server is running in http://localhost:${PORT}/graphql`);
+    })
+}
+
+main();

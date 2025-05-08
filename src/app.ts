@@ -1,28 +1,45 @@
+import "reflect-metadata";
 import express from "express";
-import {createHandler} from "graphql-http/lib/use/express";
+import { buildSchema } from "type-graphql";
+import { createHandler } from "graphql-http/lib/use/express";
 import schema from './schema/index';
-import resolvers from "./resolvers/index";
+import { UserResolver } from "./resolvers/userResolver";
 
-const app = express();
+async function bootstrap() {
+    const schema = await buildSchema({
+        resolvers: [UserResolver],
+    });
 
-app.use(express.json());
+    const app = express();
 
-const graphqlHandler = createHandler({
-    schema,
-    rootValue: resolvers,
-    formatError: (error) => {
-        console.error('GraphQL Error:', error);
-        return error
-    }
-});
+    app.use(express.json());
 
-app.post("/graphql",
-    (req, res, next) => {
-    try {
-        graphqlHandler(req as any, res as any, next)
-    } catch (error) {
-        next(error)
-    }
-})
 
-export default app;
+    const graphqlHandler = createHandler({
+        schema,
+        context: (req, res) => {
+            return {
+                req,
+                res,
+            };
+        },
+        formatError: (error) => {
+            console.error('GraphQL Error:', error);
+            return error
+        }
+    });
+
+    app.post("/graphql",
+        (req, res, next) => {
+            try {
+                graphqlHandler(req as any, res as any, next)
+            } catch (error) {
+                next(error)
+            }
+        })
+
+    return app
+}
+
+
+export default bootstrap;

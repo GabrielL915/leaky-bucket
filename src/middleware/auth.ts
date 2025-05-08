@@ -1,23 +1,22 @@
-import {Request, Response, NextFunction} from 'express';
-import {verifyToken} from "../service/auth";
+import { MiddlewareFn } from "type-graphql";
+import { verifyToken } from "../service/auth";
+import { Context } from '../context/context';
 
-export function authMiddleware(req: Request, res: Response, next: NextFunction) {
-    const authHeader = req.headers.authorization;
-    if (!authHeader) {
-        return res.status(401).json({error: 'Missing auth header'});
+export const auth: MiddlewareFn<Context> = ({ context }, next) => {
+    const authorization = context.req.headers.authorization;
+    if (!authorization) {
+        throw new Error('Not authenticated');
     }
-
-    const [bearer, token] = authHeader.split(' ');
-
-    if (bearer !== 'Bearer' || !token) {
-        return res.status(401).json({error: 'Missing token'});
+    try {
+        const token = authorization.split(' ')[1];
+        const payload = verifyToken(token as string);
+        if(!payload) {
+            throw new Error('Not authenticated');
+        }
+        context.payload = {userId: payload.userId};
+        context.payload.userId = payload.userId;
+    } catch (error) {
+        throw new Error('Not authenticated');
     }
-
-    const user = verifyToken(token);
-    if (!user) {
-        return res.status(401).json({error: 'Invalid token'});
-    }
-
-    (req as any).user = user;
-    next()
+    return next();
 }

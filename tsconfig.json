@@ -17,6 +17,8 @@
     "allowJs": true,
     "allowImportingTsExtensions": false,
     "noEmit": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "lib": [
       "es2022"
     ]

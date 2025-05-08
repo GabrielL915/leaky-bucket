@@ -17,7 +17,8 @@ export function generateToken(user: User): string {
 export function verifyToken(token: string) {
     try {
         const decoded = jwt.verify(token, JWT_SECRET) as jwt.JwtPayload;
-        return <User>users.find(users => users.id === decoded.userId);
+        const user = <User>users.find(users => users.id === decoded.userId);//trocar pra mongo
+        return {userId: user.id};
     } catch (error) {
         console.log(error);
     }

@@ -1,0 +1,20 @@
+services:
+  redis:
+    image: redis:alpine
+    container_name: redis
+    command: redis-server --save "" --appendonly no --maxclients 20000
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    mem_limit: 200m # Limitando a memória a 200MB
+    cpu_shares: 256
+
+volumes:
+  redis-data:
+    driver: local
