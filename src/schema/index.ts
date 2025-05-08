@@ -2,18 +2,16 @@ import {buildSchema} from "graphql";
 
 const schema = buildSchema(`
   type Query {
-    hello: String
-    users: [User!]!
-    user(id: ID!): User
+    pix: Pix
   }
-
-  type User {
-    id: ID!
-    name: String!
+  
+  type Pix {
+  key: String!,
+  values: Int!
   }
 
   type Mutation {
-    createUser(name: String!): User!
+    queryPix(key: String!): Pix
   }
 `);
 

@@ -16,7 +16,8 @@ const graphqlHandler = createHandler({
     }
 });
 
-app.all("/graphql", (req, res, next) => {
+app.post("/graphql",
+    (req, res, next) => {
     try {
         graphqlHandler(req as any, res as any, next)
     } catch (error) {
