@@ -1,7 +1,7 @@
 services:
   redis:
     image: redis:alpine
-    container_name: redis
+    container_name: leaky-bucket-redis
     command: redis-server --save "" --appendonly no --maxclients 20000
     ports:
       - '6379:6379'

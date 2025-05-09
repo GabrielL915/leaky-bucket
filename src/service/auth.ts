@@ -1,14 +1,9 @@
 import jwt from 'jsonwebtoken';
 import {User} from "../interfaces/user";
+import { users } from '../entities/mocks/user-mock';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'test';
 const JWT_EXPIRE = '1h';
-
-//mock
-const users: User[] = [
-    {id: '1', name: 'João'},
-    {id: '2', name: 'Maria'},
-];
 
 export function generateToken(user: User): string {
     return jwt.sign({userId: user.id}, JWT_SECRET, {expiresIn: JWT_EXPIRE});

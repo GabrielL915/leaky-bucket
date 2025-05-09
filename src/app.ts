@@ -2,7 +2,6 @@ import "reflect-metadata";
 import express from "express";
 import { buildSchema } from "type-graphql";
 import { createHandler } from "graphql-http/lib/use/express";
-import schema from './schema/index';
 import { UserResolver } from "./resolvers/userResolver";
 
 async function bootstrap() {

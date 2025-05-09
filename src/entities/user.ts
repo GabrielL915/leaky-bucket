@@ -8,3 +8,11 @@ export class User {
     @Field()
     name!: string;
 }
+
+@ObjectType()
+export class LoginResponse {
+    @Field()
+    accessToken!: string;
+    @Field(() => User)
+    user!: User;
+}
