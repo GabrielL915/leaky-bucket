@@ -49,3 +49,5 @@ export class LeakyBucketService {
         }, this.REFILL_INTERVAL * 1000);
     }
 }
+
+export const leakyBucketService = new LeakyBucketService();
