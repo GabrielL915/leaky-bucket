@@ -2,11 +2,12 @@ import "reflect-metadata";
 import express from "express";
 import { buildSchema } from "type-graphql";
 import { createHandler } from "graphql-http/lib/use/express";
-import { UserResolver } from "./resolvers/userResolver";
+import { UserResolver } from "./resolvers/user-resolver";
+import { PixResolver } from "./resolvers/pix-resolver";
 
 async function bootstrap() {
     const schema = await buildSchema({
-        resolvers: [UserResolver],
+        resolvers: [UserResolver, PixResolver],
     });
 
     const app = express();
