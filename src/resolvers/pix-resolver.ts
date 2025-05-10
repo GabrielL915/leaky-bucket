@@ -3,6 +3,7 @@ import { Pix } from "../entities/pix";
 import { auth } from "../middleware/auth";
 import { Context } from "../context/context";
 import { leakyBucketService } from "../service/leaky-bucket";
+import { leakyBucket } from "../middleware/leaky-bucket";
 
 @Resolver()
 export class PixResolver {
@@ -16,7 +17,7 @@ export class PixResolver {
 
     //TODO: Refatorar, apenas simulação
     @Mutation(() => Pix, { nullable: true })
-    @UseMiddleware(auth)
+    @UseMiddleware(auth, leakyBucket)
     async queryPixKey(
         @Arg('key') key: string,
         @Arg('value') value: number,
@@ -39,7 +40,7 @@ export class PixResolver {
     }
 
     @Query(() => Number)
-    @UseMiddleware(auth)
+    @UseMiddleware(auth, leakyBucket)
     async getTokens(@Ctx() { payload }: Context): Promise<number> {
         return await leakyBucketService.getTokens(payload!.userId);
     }
