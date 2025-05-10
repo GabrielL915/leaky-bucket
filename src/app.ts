@@ -4,6 +4,7 @@ import { buildSchema } from "type-graphql";
 import { createHandler } from "graphql-http/lib/use/express";
 import { UserResolver } from "./resolvers/user-resolver";
 import { PixResolver } from "./resolvers/pix-resolver";
+import { leakyBucketService } from "./service/leaky-bucket";
 
 async function bootstrap() {
     const schema = await buildSchema({
@@ -14,6 +15,7 @@ async function bootstrap() {
 
     app.use(express.json());
 
+    leakyBucketService.setupTokenRefillScheduler();
 
     const graphqlHandler = createHandler({
         schema,
