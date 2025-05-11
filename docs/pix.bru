@@ -1,0 +1,29 @@
+meta {
+  name: pix
+  type: graphql
+  seq: 4
+}
+
+post {
+  url: http://localhost:3000/graphql
+  body: graphql
+  auth: bearer
+}
+
+headers {
+  : 
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxIiwiaWF0IjoxNzQ2OTY2ODMyLCJleHAiOjE3NDY5NzA0MzJ9.btUkvIE0Y14P49aFz_iDCR4GJb6Q19ZJHOaVYhHUKhI
+}
+
+body:graphql {
+  mutation {
+    queryPixKey(key: "1", values: 100) {
+      key
+      values
+    }
+  }
+  
+}

@@ -20,7 +20,7 @@ export class PixResolver {
     @UseMiddleware(auth, leakyBucket)
     async queryPixKey(
         @Arg('key') key: string,
-        @Arg('value') value: number,
+        @Arg('values') values: number,
         @Ctx() { payload }: Context
     ): Promise<Pix> {
         const hasToken = await leakyBucketService.consumeToken(payload!.userId);
@@ -31,7 +31,7 @@ export class PixResolver {
         try {
             return {
                 key,
-                values: value
+                values
             }
         } catch (error) {
             await leakyBucketService.reffilTokens(payload!.userId);
