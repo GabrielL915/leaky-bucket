@@ -45,6 +45,7 @@ export class LeakyBucketService {
                 }
             } catch (error) {
                 console.error(error);
+                throw new Error('Wait to refill tokens')
             }
         }, this.REFILL_INTERVAL * 1000);
     }
