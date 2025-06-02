@@ -2,11 +2,11 @@ export const typeDefs = `#graphql
 type User = {
     id: String
     username: String
-    tokem: String
+    token: String
 }
 
 type LoginResponse {
-    tokem: String
+    token: String
     message: String
 }
 
@@ -17,7 +17,7 @@ type PixResponse {
 }
 
 type Query {
-    user(id: String): User
+    getUser(id: String): User
 }
 
 type Mutation {
