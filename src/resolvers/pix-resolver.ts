@@ -1,4 +1,4 @@
-import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
+/* import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
 import { Pix } from "../entities/pix";
 import { auth } from "../middleware/auth";
 import { Context } from "../context/context";
@@ -44,4 +44,4 @@ export class PixResolver {
     async getTokens(@Ctx() { payload }: Context): Promise<number> {
         return await leakyBucketService.getTokens(payload!.userId);
     }
-}
+} */

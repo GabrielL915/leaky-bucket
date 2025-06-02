@@ -1,4 +1,4 @@
-import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
+/* import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
 import { auth } from "../middleware/auth";
 import { Context } from "../context/context";
 import { LoginResponse } from "../entities/user";
@@ -28,4 +28,4 @@ export class UserResolver {
         console.log(payload)
         return `Hello ${payload!.userId}`
     }
-}
+} */
