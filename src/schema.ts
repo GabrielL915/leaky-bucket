@@ -11,7 +11,7 @@ type LoginResponse {
 }
 
 type PixResponse {
-    values: Int
+    value: Int
     tokensLeft: Int
     message: String
 }
@@ -22,6 +22,6 @@ type Query {
 
 type Mutation {
     login(username: String, password: String): LoginResponse
-    queryPix(key: String, values: Int): PixResponse
+    queryPix(key: String, value: Int): PixResponse
 }
 `
