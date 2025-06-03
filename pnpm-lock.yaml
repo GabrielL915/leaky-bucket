@@ -11,18 +11,15 @@ importers:
       '@apollo/server':
         specifier: ^4.12.1
         version: 4.12.1(graphql@16.11.0)
+      '@as-integrations/express5':
+        specifier: ^1.0.0
+        version: 1.0.0(@apollo/server@4.12.1(graphql@16.11.0))(express@5.1.0)
       express:
         specifier: ^5.1.0
         version: 5.1.0
       graphql:
         specifier: ^16.11.0
         version: 16.11.0
-      graphql-http:
-        specifier: ^1.22.4
-        version: 1.22.4(graphql@16.11.0)
-      graphql-scalars:
-        specifier: ^1.24.2
-        version: 1.24.2(graphql@16.11.0)
       ioredis:
         specifier: ^5.6.1
         version: 5.6.1
@@ -32,12 +29,6 @@ importers:
       redis:
         specifier: ^5.0.1
         version: 5.0.1
-      reflect-metadata:
-        specifier: ^0.2.2
-        version: 0.2.2
-      type-graphql:
-        specifier: 2.0.0-rc.2
-        version: 2.0.0-rc.2(graphql-scalars@1.24.2(graphql@16.11.0))(graphql@16.11.0)
     devDependencies:
       '@types/express':
         specifier: ^5.0.1
@@ -161,6 +152,13 @@ packages:
   '@apollo/utils.withrequired@2.0.1':
     resolution: {integrity: sha512-YBDiuAX9i1lLc6GeTy1m7DGLFn/gMnvXqlalOIMjM7DeOgIacEjjfwPqb0M1CQ2v11HhR15d1NmxJoRCfrNqcA==}
     engines: {node: '>=14'}
+
+  '@as-integrations/express5@1.0.0':
+    resolution: {integrity: sha512-bCR+QIdax14GY9c8faPfwHp7r3UM+A8M/LMaL7gbOQssHI+AD3uwr18/sCLbFWrMMvilmDZt8jeUdHRIj3ggTQ==}
+    engines: {node: '>=20'}
+    peerDependencies:
+      '@apollo/server': ^4.0.0
+      express: ^5.0.0
 
   '@babel/code-frame@7.27.1':
     resolution: {integrity: sha512-cjQ7ZlQ0Mv3b47hABuTevyTuYN4i+loJKGeV9flcCgIK37cCXRh+L1bd3iBHlynerhQ7BhCkn2BPbQUL+rGqFg==}
@@ -347,14 +345,6 @@ packages:
     peerDependencies:
       graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
 
-  '@graphql-yoga/subscription@5.0.5':
-    resolution: {integrity: sha512-oCMWOqFs6QV96/NZRt/ZhTQvzjkGB4YohBOpKM4jH/lDT4qb7Lex/aGCxpi/JD9njw3zBBtMqxbaC22+tFHVvw==}
-    engines: {node: '>=18.0.0'}
-
-  '@graphql-yoga/typed-event-target@3.0.2':
-    resolution: {integrity: sha512-ZpJxMqB+Qfe3rp6uszCQoag4nSw42icURnBRfFYSOmTgEeOe4rD0vYlbA8spvCu2TlCesNTlEN9BLWtQqLxabA==}
-    engines: {node: '>=18.0.0'}
-
   '@ioredis/commands@1.2.0':
     resolution: {integrity: sha512-Sx1pU8EM64o2BrqNpEO1CNLtKQwyhuXuqyfH7oGKCk+1a33d2r5saW8zNwm3j6BTExtjrv2BxTgzzkMwts6vGg==}
 
@@ -518,9 +508,6 @@ packages:
     peerDependencies:
       '@redis/client': ^5.0.1
 
-  '@repeaterjs/repeater@3.0.6':
-    resolution: {integrity: sha512-Javneu5lsuhwNCryN+pXH93VPQ8g0dBX7wItHFgYiwQmzE1sVdg5tWHiOgHywzL2W21XQopa7IwIEnNbmeUJYA==}
-
   '@sinclair/typebox@0.27.8':
     resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==}
 
@@ -622,9 +609,6 @@ packages:
     resolution: {integrity: sha512-bI+gth8La8Wg/QCR1+V1fhrL9+LZUSWfcqpOj2Kc80ZQ4ffbdL173vQd5wovmoV9i071FU9oP2g6etLuEwb6Rg==}
     deprecated: This is a stub types definition. redis provides its own type definitions, so you do not need this installed.
 
-  '@types/semver@7.7.0':
-    resolution: {integrity: sha512-k107IF4+Xr7UHjwDc7Cfd6PRQfbdkiRabXGRjo07b4WyPahFBZCZ1sE+BNxYIJPPg73UkfOsVOLwqVc/6ETrIA==}
-
   '@types/send@0.17.4':
     resolution: {integrity: sha512-x2EM6TJOybec7c52BX0ZspPodMsQUd5L6PRwOunVyVUhXiBSKf3AezDL8Dgvgt5o0UfKNfuA0eMLr2wLT4AiBA==}
 
@@ -639,10 +623,6 @@ packages:
 
   '@types/yargs@17.0.33':
     resolution: {integrity: sha512-WpxBCKWPLr4xSsHgz511rFJAM+wS28w2zEO1QDNY5zM/S8ok70NNfztH0xwhqKyaK0OHCbN98LDAZuy1ctxDkA==}
-
-  '@whatwg-node/events@0.1.2':
-    resolution: {integrity: sha512-ApcWxkrs1WmEMS2CaLLFUEem/49erT3sxIVjpzU5f6zmVcnijtDSrhoK2zVobOIikZJdH63jdAXOrvjf6eOUNQ==}
-    engines: {node: '>=18.0.0'}
 
   accepts@1.3.8:
     resolution: {integrity: sha512-PYAthTa2m2VKxuvSD3DPC/Gy+U+sOA1LAuT8mkmRuvw+NACSaeXEQ+NHcVF7rONl6qcaxV3Uuemwawk+7+SJLw==}
@@ -1139,23 +1119,6 @@ packages:
   graceful-fs@4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
 
-  graphql-http@1.22.4:
-    resolution: {integrity: sha512-OC3ucK988teMf+Ak/O+ZJ0N2ukcgrEurypp8ePyJFWq83VzwRAmHxxr+XxrMpxO/FIwI4a7m/Fzv3tWGJv0wPA==}
-    engines: {node: '>=12'}
-    peerDependencies:
-      graphql: '>=0.11 <=16'
-
-  graphql-query-complexity@0.12.0:
-    resolution: {integrity: sha512-fWEyuSL6g/+nSiIRgIipfI6UXTI7bAxrpPlCY1c0+V3pAEUo1ybaKmSBgNr1ed2r+agm1plJww8Loig9y6s2dw==}
-    peerDependencies:
-      graphql: ^14.6.0 || ^15.0.0 || ^16.0.0
-
-  graphql-scalars@1.24.2:
-    resolution: {integrity: sha512-FoZ11yxIauEnH0E5rCUkhDXHVn/A6BBfovJdimRZCQlFCl+h7aVvarKmI15zG4VtQunmCDdqdtNs6ixThy3uAg==}
-    engines: {node: '>=10'}
-    peerDependencies:
-      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
-
   graphql@16.11.0:
     resolution: {integrity: sha512-mS1lbMsxgQj6hge1XZ6p7GPhbrtFwUFYi3wRzXAC/FmYnyXMTvvI3td3rjmQ2u8ewXueaSvRPWaEcgVVOT9Jnw==}
     engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
@@ -1453,10 +1416,6 @@ packages:
 
   lodash.defaults@4.2.0:
     resolution: {integrity: sha512-qjxPLHd3r5DnsdGacqOMU6pb/avJzdh9tFX2ymgoZE27BmjXrNy/y4LoaiTeAb+O3gL8AfpJGtqfX/ae2leYYQ==}
-
-  lodash.get@4.4.2:
-    resolution: {integrity: sha512-z+Uw/vLuy6gQe8cfaFWD7p0wVv8fJl3mbzXh33RS+0oW2wvUqiRXiQ69gLWSLpgB5/6sU+r6BlQR0MBILadqTQ==}
-    deprecated: This package is deprecated. Use the optional chaining (?.) operator instead.
 
   lodash.includes@4.3.0:
     resolution: {integrity: sha512-W3Bx6mdkRTGtlJISOvVD/lbqjTlPPUDTMnlXZFnVwi9NKJ6tiAk6LVdlhZMm17VZisqhKcgzpO5Wz91PCt5b0w==}
@@ -1756,9 +1715,6 @@ packages:
     resolution: {integrity: sha512-J8nqUjrfSq0E8NQkcHDZ4HdEQk5RMYjP3jZq02PE+ERiRxolbDNxPaTT4xh6tdrme+lJ86Goje9yMt9uzh23hQ==}
     engines: {node: '>= 18'}
 
-  reflect-metadata@0.2.2:
-    resolution: {integrity: sha512-urBwgfrvVP/eAyXx4hluJivBKzuEbSQs9rKWCrCkbSxNv8mxPcUZKeuoF3Uy4mJl3Lwprp6yy5/39VWigZ4K6Q==}
-
   require-directory@2.1.1:
     resolution: {integrity: sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q==}
     engines: {node: '>=0.10.0'}
@@ -1996,17 +1952,6 @@ packages:
     resolution: {integrity: sha512-TeTSQ6H5YHvpqVwBRcnLDCBnDOHWYu7IvGbHT6N8AOymcr9PJGjc1GTtiWZTYg0NCgYwvnYWEkVChQAr9bjfwA==}
     engines: {node: '>=16'}
 
-  type-graphql@2.0.0-rc.2:
-    resolution: {integrity: sha512-DJ8erG1cmjteMrOhFIkBHOqRM+L+wCJxvNjbbj1Y+q2r4HZkB1qOSS4ZD4AaoAfRPAp1yU23gMtmzf0jen/FFA==}
-    engines: {node: '>= 18.12.0'}
-    peerDependencies:
-      class-validator: '>=0.14.0'
-      graphql: ^16.8.1
-      graphql-scalars: ^1.23.0
-    peerDependenciesMeta:
-      class-validator:
-        optional: true
-
   type-is@1.6.18:
     resolution: {integrity: sha512-TkRKr9sUTxEH8MdfuCSP7VizJyzRNMjj2J2do2Jr3Kym598JVdEksuzPQCnlFPW4ky9Q+iA+ma9BGm06XQBy8g==}
     engines: {node: '>= 0.6'}
@@ -2226,6 +2171,11 @@ snapshots:
 
   '@apollo/utils.withrequired@2.0.1': {}
 
+  '@as-integrations/express5@1.0.0(@apollo/server@4.12.1(graphql@16.11.0))(express@5.1.0)':
+    dependencies:
+      '@apollo/server': 4.12.1(graphql@16.11.0)
+      express: 5.1.0
+
   '@babel/code-frame@7.27.1':
     dependencies:
       '@babel/helper-validator-identifier': 7.27.1
@@ -2440,18 +2390,6 @@ snapshots:
   '@graphql-typed-document-node/core@3.2.0(graphql@16.11.0)':
     dependencies:
       graphql: 16.11.0
-
-  '@graphql-yoga/subscription@5.0.5':
-    dependencies:
-      '@graphql-yoga/typed-event-target': 3.0.2
-      '@repeaterjs/repeater': 3.0.6
-      '@whatwg-node/events': 0.1.2
-      tslib: 2.8.1
-
-  '@graphql-yoga/typed-event-target@3.0.2':
-    dependencies:
-      '@repeaterjs/repeater': 3.0.6
-      tslib: 2.8.1
 
   '@ioredis/commands@1.2.0': {}
 
@@ -2698,8 +2636,6 @@ snapshots:
     dependencies:
       '@redis/client': 5.0.1
 
-  '@repeaterjs/repeater@3.0.6': {}
-
   '@sinclair/typebox@0.27.8': {}
 
   '@sinonjs/commons@3.0.1':
@@ -2830,8 +2766,6 @@ snapshots:
     dependencies:
       redis: 5.0.1
 
-  '@types/semver@7.7.0': {}
-
   '@types/send@0.17.4':
     dependencies:
       '@types/mime': 1.3.5
@@ -2850,10 +2784,6 @@ snapshots:
   '@types/yargs@17.0.33':
     dependencies:
       '@types/yargs-parser': 21.0.3
-
-  '@whatwg-node/events@0.1.2':
-    dependencies:
-      tslib: 2.8.1
 
   accepts@1.3.8:
     dependencies:
@@ -3420,20 +3350,6 @@ snapshots:
 
   graceful-fs@4.2.11: {}
 
-  graphql-http@1.22.4(graphql@16.11.0):
-    dependencies:
-      graphql: 16.11.0
-
-  graphql-query-complexity@0.12.0(graphql@16.11.0):
-    dependencies:
-      graphql: 16.11.0
-      lodash.get: 4.4.2
-
-  graphql-scalars@1.24.2(graphql@16.11.0):
-    dependencies:
-      graphql: 16.11.0
-      tslib: 2.8.1
-
   graphql@16.11.0: {}
 
   has-flag@4.0.0: {}
@@ -3922,8 +3838,6 @@ snapshots:
 
   lodash.defaults@4.2.0: {}
 
-  lodash.get@4.4.2: {}
-
   lodash.includes@4.3.0: {}
 
   lodash.isarguments@3.1.0: {}
@@ -4155,8 +4069,6 @@ snapshots:
       '@redis/json': 5.0.1(@redis/client@5.0.1)
       '@redis/search': 5.0.1(@redis/client@5.0.1)
       '@redis/time-series': 5.0.1(@redis/client@5.0.1)
-
-  reflect-metadata@0.2.2: {}
 
   require-directory@2.1.1: {}
 
@@ -4423,17 +4335,6 @@ snapshots:
   type-fest@0.21.3: {}
 
   type-fest@4.41.0: {}
-
-  type-graphql@2.0.0-rc.2(graphql-scalars@1.24.2(graphql@16.11.0))(graphql@16.11.0):
-    dependencies:
-      '@graphql-yoga/subscription': 5.0.5
-      '@types/node': 22.15.15
-      '@types/semver': 7.7.0
-      graphql: 16.11.0
-      graphql-query-complexity: 0.12.0(graphql@16.11.0)
-      graphql-scalars: 1.24.2(graphql@16.11.0)
-      semver: 7.7.1
-      tslib: 2.8.1
 
   type-is@1.6.18:
     dependencies:

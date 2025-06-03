@@ -1,4 +1,4 @@
-import { Field, ObjectType } from "type-graphql";
+/* import { Field, ObjectType } from "type-graphql";
 
 @ObjectType()
 export class Pix {
@@ -7,4 +7,4 @@ export class Pix {
 
     @Field()
     values!: number
-}
+} */

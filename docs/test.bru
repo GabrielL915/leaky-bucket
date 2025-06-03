@@ -11,11 +11,19 @@ post {
 }
 
 body:graphql {
-  query {
-    pix {
-      key
-      values
+  query GetUser($id: String) {
+    getUser(id: $id) {
+      id
+      username
+      token
     }
+  }
+  
+}
+
+body:graphql:vars {
+  {
+    "id": "123"
   }
   
 }
