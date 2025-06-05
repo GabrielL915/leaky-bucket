@@ -13,7 +13,12 @@ const connectionString =
 
 const redis = new Redis(connectionString);
 
-redis.on('connect', () => console.log('Redis conectado'));
+redis.on('connect', async () => {
+    try {
+        const pong = await redis.ping();
+        console.log('Ping: ', pong)
+    }
+});
 redis.on('error', err => console.error(' Erro no Redis', err));
 
 export default redis;

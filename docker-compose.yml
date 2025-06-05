@@ -15,6 +15,26 @@ services:
     mem_limit: 200m # Limitando a memória a 200MB
     cpu_shares: 256
 
+  mongodb:
+    image: mongo:latest
+    container_name: leaky-bucket-mongo
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example123
+    healthcheck:
+      test: ["CMD", "mongosh", "--username", "root", "--password", "example123", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    mem_limit: 512m # Limita a memória a 512MB
+    cpu_shares: 512
+
 volumes:
   redis-data:
+    driver: local
+  mongo-data:
     driver: local
