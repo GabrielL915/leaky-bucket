@@ -4,12 +4,16 @@ import { expressMiddleware } from "@as-integrations/express5";
 import { typeDefs } from "./schema";
 import { GraphqlContext } from "./interfaces/context";
 import { resolvers } from "./resolvers";
-import { initializeRedis } from "./db/redis";
+import { initializeRedis } from "./config/redis";
+import { connectMongoDB } from "./config/mongodb";
 async function bootstrap() {
     const app = express();
     app.use(express.json());
 
     await initializeRedis();
+
+    await connectMongoDB();
+
 
     const graphql = new ApolloServer<GraphqlContext>({
         typeDefs,

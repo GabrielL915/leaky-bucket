@@ -2,14 +2,14 @@ import Redis from 'ioredis';
 import { tryCatch } from '../utils/trycatch';
 
 const {
-    REDIS_URL,
+    REDIS_URI,
     REDIS_HOST = 'localhost',
     REDIS_PORT = '6379',
     REDIS_PASSWORD,
 } = process.env;
 
 const connectionString =
-    REDIS_URL ??
+    REDIS_URI ??
     `redis://${REDIS_PASSWORD ? `:${REDIS_PASSWORD}@` : ''}${REDIS_HOST}:${REDIS_PORT}`;
 
 /* const redis = new Redis(connectionString);
@@ -28,14 +28,11 @@ export async function initializeRedis(): Promise<Redis> {
     }
 
     const redis = createRedisConnection();
-
-    // Setup event listeners antes de conectar
     setupRedisEventListeners(redis);
 
     try {
         console.log('Conectando ao Redis...');
 
-        // Conecta explicitamente
         await redis.connect();
 
         // Testa a conexão com ping

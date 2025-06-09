@@ -4,11 +4,11 @@ services:
     container_name: leaky-bucket-redis
     command: redis-server --save "" --appendonly no --maxclients 20000
     ports:
-      - '6379:6379'
+      - "6379:6379"
     volumes:
       - redis-data:/data
     healthcheck:
-      test: [ "CMD", "redis-cli", "ping" ]
+      test: ["CMD", "redis-cli", "ping"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -19,14 +19,11 @@ services:
     image: mongo:latest
     container_name: leaky-bucket-mongo
     ports:
-      - '27017:27017'
+      - "27017:27017"
     volumes:
       - mongo-data:/data/db
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example123
     healthcheck:
-      test: ["CMD", "mongosh", "--username", "root", "--password", "example123", "--eval", "db.adminCommand('ping')"]
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
       interval: 10s
       timeout: 5s
       retries: 5
