@@ -2,5 +2,5 @@ import { Request, Response } from "express"
 export interface GraphqlContext {
     req: Request;
     res: Response;
-    payload?: { id: string }
+    payload?: { username: string }
 }

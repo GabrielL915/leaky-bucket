@@ -10,6 +10,10 @@ type LoginResponse {
     message: String
 }
 
+type RegisterResponse {
+    message: String
+}
+
 type PixResponse {
     value: Int
     tokensLeft: Int
@@ -21,7 +25,8 @@ type Query {
 }
 
 type Mutation {
-    login(username: String, password: String): LoginResponse
-    queryPix(key: String, value: Int): PixResponse
+    login(username: String!, password: String!): LoginResponse
+    register(username: String!, password: String!): RegisterResponse
+    queryPix(key: String!, value: Int!): PixResponse
 }
 `
