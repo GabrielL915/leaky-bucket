@@ -2,12 +2,11 @@ export const typeDefs = `#graphql
 type User {
     id: String
     username: String
-    token: String
+    accessToken: String
 }
 
 type LoginResponse {
-    token: String
-    message: String
+    accessToken: String
 }
 
 type RegisterResponse {

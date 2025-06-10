@@ -7,13 +7,10 @@ export class UserRepository {
         return newUser
     }
 
-    async findUserByUsername(username: string): Promise<DocumentUser> {
+    async findUserByUsername(username: string): Promise<DocumentUser | null> {
         const user = await userModel.findOne({
             username: username
         })
-        if (!user) {
-            throw new Error("Cannot find User")
-        }
         return user
 
     }

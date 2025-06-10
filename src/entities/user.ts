@@ -4,13 +4,13 @@ import { DocumentBucket } from "./bucket";
 export interface DocumentUser extends Document {
     username: string;
     password: string;
-    token: string;
+    accessToken: string;
     bucket?: DocumentBucket;
 }
 const userSchema = new Schema({
     username: { require: true, type: String, unique: true },
     password: { require: true, type: String },
-    token: { require: true, type: String }
+    accessToken: { require: true, type: String }
 
 })
 
