@@ -7,7 +7,6 @@ export class UserService {
         const existingUser = await this.userRepository.findUserByUsername(input.username);
 
         if (!existingUser) {
-            //hash da senha
             const newUser = await this.userRepository.createUser(input)
             return newUser
         }
