@@ -1,45 +1,34 @@
-import "reflect-metadata";
-import express from "express";
-import { buildSchema } from "type-graphql";
-import { createHandler } from "graphql-http/lib/use/express";
-import { UserResolver } from "./resolvers/user-resolver";
-import { PixResolver } from "./resolvers/pix-resolver";
-import { leakyBucketService } from "./service/leaky-bucket";
-
+import express, { Request, Response } from "express";
+import { ApolloServer } from "@apollo/server";
+import { expressMiddleware } from "@as-integrations/express5";
+import { typeDefs } from "./schema";
+import { GraphqlContext } from "./interfaces/context";
+import { resolvers } from "./resolvers";
+import { initializeRedis } from "./config/redis";
+import { connectMongoDB } from "./config/mongodb";
 async function bootstrap() {
-    const schema = await buildSchema({
-        resolvers: [UserResolver, PixResolver],
-    });
-
     const app = express();
-
     app.use(express.json());
 
-    leakyBucketService.setupTokenRefillScheduler();
+    await initializeRedis();
 
-    const graphqlHandler = createHandler({
-        schema,
-        context: (req, res) => {
-            return {
-                req,
-                res,
-            };
-        },
-        formatError: (error) => {
-            console.error('GraphQL Error:', error);
-            return error
-        }
-    });
+    await connectMongoDB();
 
-    app.post("/graphql",
-        (req, res, next) => {
-            try {
-                graphqlHandler(req as any, res as any, next)
-            } catch (error) {
-                next(error)
+
+    const graphql = new ApolloServer<GraphqlContext>({
+        typeDefs,
+        resolvers,
+    })
+
+    await graphql.start();
+
+    app.use("/graphql",
+        express.json(),
+        expressMiddleware(graphql, {
+            context: async ({ req, res }): Promise<GraphqlContext> => {
+                return { req, res }
             }
-        })
-
+        }))
     return app
 }
 

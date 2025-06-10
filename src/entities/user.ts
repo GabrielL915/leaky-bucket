@@ -1,18 +1,17 @@
-import { Field, ObjectType } from "type-graphql";
+import { Document, model, Schema } from "mongoose";
+import { DocumentBucket } from "./bucket";
 
-@ObjectType()
-export class User {
-    @Field()
-    id!: string;
-    
-    @Field()
-    name!: string;
+export interface DocumentUser extends Document {
+    username: string;
+    password: string;
+    token: string;
+    bucket?: DocumentBucket;
 }
+const userSchema = new Schema({
+    username: { require: true, type: String, unique: true },
+    password: { require: true, type: String },
+    token: { require: true, type: String }
 
-@ObjectType()
-export class LoginResponse {
-    @Field()
-    accessToken!: string;
-    @Field(() => User)
-    user!: User;
-}
+})
+
+export const userModel = model<DocumentUser>("User", userSchema);
