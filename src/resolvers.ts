@@ -1,12 +1,10 @@
-/* import { User } from "./entities/user";
- */
 import { GraphqlContext } from "./interfaces/context";
 import { UserRepository } from "./repository/mongodb/user-repository";
 import { AuthService } from "./services/auth-service";
 import { UserService } from "./services/user-service";
 
 const userRepository = new UserRepository();
-const userService = new UserService(userRepository); // Assumindo que UserService precisa do repository
+const userService = new UserService(userRepository);
 const authService = new AuthService(userRepository, userService)
 
 export const resolvers = {
@@ -30,7 +28,8 @@ export const resolvers = {
     },
 
     Query: {
-        getUser: async (_: unknown, { username }: { username: string }, {req, res}: GraphqlContext) => {
+        getUser: async (_: unknown, { username }: { username: string }, context: GraphqlContext) => {
+            if(!context.payload) throw new Error("Unauthorized")
             const result = await userService.getUserByUsername(username)
             return result
         }
