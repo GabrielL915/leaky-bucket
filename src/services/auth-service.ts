@@ -23,7 +23,7 @@ export class AuthService {
             expiresIn: "1h",
         })
 
-        const userCreated = this.userService.create({ username, hashedPassword, accessToken })
+        const userCreated = this.userService.create({ username, password: hashedPassword, accessToken })
 
         return { message: "User registered successfuly" }
     }
@@ -44,7 +44,8 @@ export class AuthService {
             expiresIn: "1h",
         })
 
-        const updateUser = this.userRepository.updateUser({ username, password, accessToken })
+        //todo
+        const updateUser = this.userRepository.updateUser({ username, password: getUser.password, accessToken })
 
         //create bucket if not exist
 

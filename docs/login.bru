@@ -20,12 +20,8 @@ auth:bearer {
 
 body:graphql {
   mutation {
-    login(name: "João") {
+    login(username: "teste4", password: "123456") {
       accessToken
-      user {
-        id
-        name
-      }
     }
   }
   

@@ -1,7 +1,7 @@
 meta {
-  name: register
+  name: getUser
   type: graphql
-  seq: 2
+  seq: 6
 }
 
 post {
@@ -11,9 +11,11 @@ post {
 }
 
 body:graphql {
-  mutation {
-    register(username: "teste4", password: "123456") {
-      message
+  query {
+    getUser(username: "teste4") {
+      username
+      password
+      accessToken
     }
   }
   

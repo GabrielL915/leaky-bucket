@@ -11,16 +11,6 @@ const authService = new AuthService(userRepository, userService)
 
 export const resolvers = {
 
-    /*     Query: {
-            getUser: async (_: unknown,
-                {id}: {id: string},
-                {req, res}: GraphqlContext
-            ): Promise <User> => {
-                
-                return { id: id, username: "teste", token: "user:${id}:tokens"}
-            }
-        } */
-
     Mutation: {
         register: async (_: unknown,
             { username, password }: { username: string, password: string },
@@ -28,11 +18,22 @@ export const resolvers = {
         ) => {
             const result = await authService.register(username, password)
             return result
+        },
+
+        login: async (_: unknown,
+            { username, password }: { username: string, password: string },
+            { req, res }: GraphqlContext
+        ) => {
+            const result = await authService.login(username, password)
+            return result
+        }
+    },
+
+    Query: {
+        getUser: async (_: unknown, { username }: { username: string }, {req, res}: GraphqlContext) => {
+            const result = await userService.getUserByUsername(username)
+            return result
         }
     }
 
-    /*     Mutation: {
-            login: async ()
-            queryPix: async
-        } */
 }

@@ -1,8 +1,8 @@
-import { DocumentUser, userModel } from "../../entities/user";
+import { DocumentUser, User, userModel } from "../../entities/user";
 
 //TODO: better error handling
 export class UserRepository {
-    async createUser(input: any): Promise<DocumentUser> {
+    async createUser(input: User): Promise<DocumentUser> {
         const newUser = await userModel.create(input)
         return newUser
     }
@@ -15,7 +15,7 @@ export class UserRepository {
 
     }
 
-    async updateUser(user: any): Promise<DocumentUser> {
+    async updateUser(user: User): Promise<DocumentUser> {
         const updateUser = await userModel.findOneAndUpdate({
             username: user.username
         }, user, {

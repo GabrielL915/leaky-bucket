@@ -1,6 +1,13 @@
 import { Document, model, Schema } from "mongoose";
 import { DocumentBucket } from "./bucket";
 
+
+export interface User {
+    username: string;
+    password: string;
+    accessToken: string
+}
+
 export interface DocumentUser extends Document {
     username: string;
     password: string;
