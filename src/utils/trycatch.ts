@@ -1,9 +1,11 @@
 export type Success<T> = {
+    success: true,
     data: T;
     error: null;
 };
 
 export type Failure<E> = {
+    success: false
     data: null;
     error: E;
 };

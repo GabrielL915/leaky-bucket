@@ -2,12 +2,16 @@ import { sign } from "jsonwebtoken";
 import { UserRepository } from "../repository/mongodb/user-repository";
 import { compare, hash } from "bcrypt"
 import { UserService } from "./user-service";
+import { BucketRepository } from "../repository/mongodb/bucket-repository";
+import { error } from "console";
+import { Result } from "../utils/trycatch";
 
 const JWT_SECRET = process.env.JWT_SECRET ?? 'teste1'
 
 export class AuthService {
     constructor(private readonly userRepository: UserRepository,
-        private readonly userService: UserService
+        private readonly userService: UserService,
+        private readonly bucketRepository: BucketRepository
     ) { }
 
 
@@ -28,7 +32,7 @@ export class AuthService {
         return { message: "User registered successfuly" }
     }
 
-    async login(username: string, password: string) {
+    async login(username: string, password: string): Promise<Result<{ accessToken: string }>> {
         const getUser = await this.userRepository.findUserByUsername(username)
 
         if (!getUser) {
@@ -45,12 +49,22 @@ export class AuthService {
         })
 
         //todo
-        const updateUser = this.userRepository.updateUser({ username, password: getUser.password, accessToken })
+        const updateUser = await this.userRepository.updateUser({ username, password: getUser.password, accessToken })
 
-        //create bucket if not exist
+        const bucket = await this.bucketRepository.create(updateUser)
 
+        if (!bucket.success) {
+            return {
+                success: false,
+                data: null,
+                error: bucket.error!
+            }
+        }
         //fill bucket
-
-        return { accessToken: accessToken }
+        return {
+            success: true,
+            data: { accessToken },
+            error: null,
+        };
     }
 }

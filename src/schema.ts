@@ -1,4 +1,13 @@
 export const typeDefs = `#graphql
+
+type Error {
+    message: String
+}
+
+type LoginData {
+    accessToken: String!
+}
+
 type User {
     username: String
     password: String
@@ -6,7 +15,9 @@ type User {
 }
 
 type LoginResponse {
-    accessToken: String
+    success: Boolean
+    data: LoginData
+    error: Error
 }
 
 type RegisterResponse {

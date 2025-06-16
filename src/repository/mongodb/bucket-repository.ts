@@ -3,6 +3,7 @@ import { bucketModel, DocumentBucket } from "../../entities/bucket";
 import { DocumentUser, userModel } from "../../entities/user";
 import { Result, tryCatch } from "../../utils/trycatch";
 
+
 export class BucketRepository {
 
     async create(input: DocumentUser): Promise<Result<DocumentBucket>> {
@@ -13,6 +14,7 @@ export class BucketRepository {
 
         if (userError) {
             return {
+                success: false,
                 data: null,
                 error: new Error("Failed to find user: " + userError.message)
             }
@@ -20,6 +22,7 @@ export class BucketRepository {
 
         if (user?.bucket) {
             return {
+                success: false,
                 data: null,
                 error: new Error("User already has a bucket")
             }
@@ -31,6 +34,7 @@ export class BucketRepository {
 
         if (bucketError) {
             return {
+                success: false,
                 data: null,
                 error: new Error("Failed to create bucket: " + bucketError.message)
             }
@@ -41,6 +45,7 @@ export class BucketRepository {
 
         if (updateError) {
             return {
+                success: false,
                 data: null,
                 error: new Error("Failed to assign bucket to user: " + updateError.message)
             }
@@ -48,33 +53,62 @@ export class BucketRepository {
 
         if (update.modifiedCount === 0) {
             return {
+                success: false,
                 data: null,
                 error: new Error("User not updated")
             }
         }
 
         return {
+            success: true,
             data: bucket,
             error: null
         }
     }
 
-    async getBucketByUser(username: string): Promise<DocumentBucket | undefined> {
-        const user = await userModel.findOne({ username }).select('bucket').populate('bucket')
+    async getBucketByUser(username: string): Promise<Result<DocumentBucket>> {
+        const { data, error } = await tryCatch(userModel.findOne({ username }).select('bucket').populate('bucket'))
 
-        if (!user) throw new Error("User not find")
+        if (error) {
+            return {
+                success: false,
+                data: null,
+                error: new Error("Failed to find user: " + error.message)
+            }
+        }
 
-        const bucket = user.bucket
+        if (!data) {
+            return {
+                success: false,
+                data: null,
+                error: new Error("User not found")
+            }
+        }
 
+        const bucket = data.bucket
 
-        if (bucket === undefined || bucket === null) throw new Error("Failed to get bucket")
+        if (!bucket) {
+            return {
+                success: false,
+                data: null,
+                error: new Error("User has no bucket assigned")
+            };
+        }
 
         if (bucket instanceof Document) {
-            return bucket as DocumentBucket
+            return {
+                success: true,
+                data: bucket as DocumentBucket,
+                error: null
+            };
         }
-    }
 
-    //get bucket
+        return {
+            success: false,
+            data: null,
+            error: new Error("Unexpected bucket format - not a populated document")
+        };
+    }
 
     //fill bucket
 
