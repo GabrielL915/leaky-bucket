@@ -1,7 +1,7 @@
 meta {
-  name: test
+  name: getUser
   type: graphql
-  seq: 2
+  seq: 6
 }
 
 post {
@@ -11,19 +11,12 @@ post {
 }
 
 body:graphql {
-  query GetUser($id: String) {
-    getUser(id: $id) {
-      id
+  query {
+    getUser(username: "teste4") {
       username
-      token
+      password
+      accessToken
     }
-  }
-  
-}
-
-body:graphql:vars {
-  {
-    "id": "123"
   }
   
 }

@@ -1,6 +1,7 @@
 import { Document, model, Schema } from "mongoose";
 
 export interface DocumentBucket extends Document {
+    
     tokens: Array<string>,
     lastTimestamp: Date,
     emptyBucket: boolean
@@ -14,4 +15,4 @@ const bucketSchema = new Schema({
     emptyBucket: { type: Boolean, require: true, default: false }
 })
 
-export default model<DocumentBucket>("Bucket", bucketSchema);
+export const bucketModel = model<DocumentBucket>("Bucket", bucketSchema);

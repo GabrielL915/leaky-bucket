@@ -1,0 +1,20 @@
+meta {
+  name: register
+  type: graphql
+  seq: 2
+}
+
+post {
+  url: http://localhost:3000/graphql
+  body: graphql
+  auth: none
+}
+
+body:graphql {
+  mutation {
+    register(username: "teste4", password: "123456") {
+      message
+    }
+  }
+  
+}
