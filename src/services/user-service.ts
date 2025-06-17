@@ -1,50 +1,99 @@
-import { User, userModel } from "../entities/user";
-import { tryCatch } from "../utils/trycatch";
+import { DocumentUser, User, userModel } from "../entities/user";
+import { Result, tryCatch } from "../utils/trycatch";
 
 export class UserService {
-    constructor() { }
 
-    async createUser(input: User) {
+    async createUser(input: User): Promise<Result<DocumentUser>> {
         const existingUser = await this.getUserByUsername(input.username);
 
-        if (!existingUser) {
-            const { data, error } = await tryCatch(userModel.create(input))
-
-            if (error) return
-
-            return data
+        if (existingUser.success) {
+            return {
+                success: false,
+                data: null,
+                error: new Error("User already exists")
+            };
         }
 
-        throw new Error("Failed to Create User")
-    }
+        const result = await tryCatch(userModel.create(input));
 
-    async getUserByUsername(username: string): Promise<User> {
-        const { data, error } = await tryCatch(userModel.findOne({
-            username: username
-        }))
+        if (result.success && result.data !== null) {
+            return {
+                success: true,
+                data: result.data,
+                error: null
+            };
+        }
 
-        if (error || !data) {
-            throw new Error
+        if (!result.success) {
+            return {
+                success: false,
+                data: null,
+                error: new Error("Failed to create user: " + result.error.message)
+            };
         }
 
         return {
-            username: data.username,
-            password: data.password,
-            accessToken: data.accessToken
+            success: false,
+            data: null,
+            error: new Error("Unexpected null user creation result")
+        };
+    }
+
+    async getUserByUsername(username: string): Promise<Result<DocumentUser>> {
+        const result = await tryCatch(userModel.findOne({
+            username: username
+        }))
+
+        if (result.success && result.data !== null) {
+            return {
+                success: true,
+                data: result.data,
+                error: null
+            }
+        }
+
+        if (!result.success) {
+            return {
+                success: false,
+                data: null,
+                error: new Error("User not found ")
+            }
+        }
+
+        return {
+            success: false,
+            data: null,
+            error: new Error("Unexpected null user data")
         }
     }
 
-    async updateUser(user: User) {
-        const updateUser = await userModel.findOneAndUpdate({
+    async updateUser(user: User): Promise<Result<DocumentUser>> {
+        const result = await tryCatch(userModel.findOneAndUpdate({
             username: user.username
         }, user, {
             new: true, runValidators: true
-        })
+        }))
 
-        if (!updateUser) {
-            throw new Error("Error while updating user")
+        if (result.success && result.data !== null) {
+            return {
+                success: true,
+                data: result.data,
+                error: null
+            };
         }
 
-        return updateUser;
+        if (!result.success) {
+            return {
+                success: false,
+                data: null,
+                error: new Error("User not found to update: " + result.error.message)
+            };
+        }
+
+        return {
+            success: false,
+            data: null,
+            error: new Error("Unexpected null user update result")
+        };
     }
 }

@@ -8,6 +8,10 @@ type LoginData {
     accessToken: String!
 }
 
+type RegisterData {
+    message: String!
+}
+
 type User {
     username: String
     password: String
@@ -21,7 +25,9 @@ type LoginResponse {
 }
 
 type RegisterResponse {
-    message: String
+    success: Boolean
+    data: RegisterData
+    error: Error
 }
 
 type PixResponse {

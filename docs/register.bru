@@ -12,8 +12,14 @@ post {
 
 body:graphql {
   mutation {
-    register(username: "teste5", password: "123456") {
-      message
+    register(username: "gabri", password: "123456") {
+      success
+      data {
+        message
+      }
+      error {
+        message
+      }
     }
   }
   

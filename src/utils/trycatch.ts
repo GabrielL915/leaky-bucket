@@ -18,12 +18,12 @@ export async function tryCatch<T, E = Error>(
 ): Promise<Result<T, E>> {
     try {
         const data = await promise;
-        return { data, error: null } as Success<T>;
+        return { success: true, data, error: null } as Success<T>;
     } catch (error) {
         const processedError = errorHandler
             ? errorHandler(error)
             : error as E;
 
-        return { data: null, error: processedError } as Failure<E>;
+        return { success: false, data: null, error: processedError } as Failure<E>;
     }
 }
