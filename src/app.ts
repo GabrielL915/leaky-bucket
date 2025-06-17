@@ -7,7 +7,6 @@ import { resolvers } from "./resolvers";
 import { initializeRedis } from "./config/redis";
 import { connectMongoDB } from "./config/mongodb";
 import { verify } from "jsonwebtoken";
-import { UserRepository } from "./repository/mongodb/user-repository";
 import { UserService } from "./services/user-service";
 async function bootstrap() {
     const app = express();
@@ -43,8 +42,7 @@ async function bootstrap() {
                         if (typeof decoded === 'object' && decoded !== null && 'username' in decoded) {
                             const payload = decoded as { username: string };
 
-                            const userRepository = new UserRepository();
-                            const userService = new UserService(userRepository);
+                            const userService = new UserService();
 
                             user = await userService.getUserByUsername(payload.username);
                         }

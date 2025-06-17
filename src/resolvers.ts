@@ -1,14 +1,11 @@
-import { error } from "console";
 import { GraphqlContext } from "./interfaces/context";
-import { UserRepository } from "./repository/mongodb/user-repository";
 import { AuthService } from "./services/auth-service";
 import { UserService } from "./services/user-service";
 import { BucketService } from "./services/bucket-service";
 
-const userRepository = new UserRepository();
-const userService = new UserService(userRepository);
+const userService = new UserService();
 const bucketService = new BucketService()
-const authService = new AuthService(userRepository, userService, bucketService)
+const authService = new AuthService(userService, bucketService)
 
 export const resolvers = {
 

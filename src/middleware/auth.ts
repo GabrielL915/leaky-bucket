@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import { verify } from 'jsonwebtoken'
 import { UserService } from '../services/user-service'
-import { UserRepository } from '../repository/mongodb/user-repository'
 
 const JWT_SECRET = process.env.JWT_SECRET ?? 'teste1'
 
@@ -23,7 +22,7 @@ export async function authMiddleware(
 
     try {
         const payload = verify(token, JWT_SECRET) as { username: string }
-        const userService = new UserService(new UserRepository())
+        const userService = new UserService()
 
         const user = await userService.getUserByUsername(payload.username)
 
