@@ -51,7 +51,7 @@ async function bootstrap() {
                     }
                 }
 
-                return { req, res, payload: user };
+                return { req, res, payload: user?.data ?? undefined };
             },
         }))
     return app

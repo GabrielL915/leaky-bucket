@@ -53,7 +53,6 @@ export class UserService {
         }
 
         if (!result.success) {
-            console.error("Error ocurred when finding user:" + result.error.message)
             return {
                 success: false,
                 data: null,

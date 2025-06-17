@@ -30,23 +30,44 @@ export class AuthService {
         return { message: "User registered successfuly" }
     }
 
-    async login(username: string, password: string) {
+    async login(username: string, password: string): Promise<Result<{ accessToken: string }>> {
         const getUser = await this.userService.getUserByUsername(username)
 
-        if (!getUser) {
-            throw new Error("User not found")
+        if (!getUser.success || getUser.data === null) {
+            return {
+                success: false,
+                data: null,
+                error: getUser.error,
+            };
         }
 
-        getUser.password
-            ? await compare(password, getUser.password)
-            : (() => { throw new Error("Password is invalid"); })();
+        const user = getUser.data;
 
+        const passwordIsValid = user.password
+            ? await compare(password, user.password)
+            : false;
+
+        if (!passwordIsValid) {
+            return {
+                success: false,
+                data: null,
+                error: new Error("Password is invalid"),
+            };
+        }
 
         const accessToken = sign({ user: username }, JWT_SECRET, {
             expiresIn: "1h",
         })
 
-        const updateUser = await this.userService.updateUser({ username, password: getUser.password, accessToken })
+        const updateUser = await this.userService.updateUser({ username, password: user.password, accessToken })
+
+        if (!updateUser.success || updateUser.data === null) {
+            return {
+                success: false,
+                data: null,
+                error: updateUser.error,
+            };
+        }
 
         const bucket = await this.bucketService.create(updateUser.data)
 
