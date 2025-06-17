@@ -15,8 +15,13 @@ export class AuthService {
 
     async register(username: string, password: string) {
         const getUser = await this.userService.getUserByUsername(username)
-        if (getUser) {
-            throw new Error("User already exists")
+
+        if (getUser.success && getUser.data !== null) {
+            return {
+                success: false,
+                data: null,
+                error: getUser.error,
+            };
         }
 
         const hashedPassword = await hash(password, 10)
@@ -25,9 +30,25 @@ export class AuthService {
             expiresIn: "1h",
         })
 
-        const userCreated = this.userService.createUser({ username, password: hashedPassword, accessToken })
+        const created = await this.userService.createUser({
+            username,
+            password: hashedPassword,
+            accessToken,
+        });
 
-        return { message: "User registered successfuly" }
+        if (!created.success || created.data === null) {
+            return {
+                success: false,
+                data: null,
+                error: created.error,
+            };
+        }
+
+        return {
+            success: true,
+            data: { message: "User registered successfully" },
+            error: null,
+        };
     }
 
     async login(username: string, password: string): Promise<Result<{ accessToken: string }>> {
