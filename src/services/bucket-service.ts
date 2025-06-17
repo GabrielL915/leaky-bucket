@@ -8,111 +8,117 @@ export class BucketService {
 
     async create(input: DocumentUser): Promise<Result<DocumentBucket>> {
 
-        const { data: user, error: userError } = await tryCatch(userModel.findOne({
-            username: input.username
-        }).select('bucket'))
+        const userResult = await tryCatch(
+            userModel.findOne({ username: input.username }).select("bucket")
+        );
 
-        if (userError) {
+        if (userResult.success && userResult.data !== null) {
+            if (userResult.data.bucket) {
+                return {
+                    success: false,
+                    data: null,
+                    error: new Error("User already has a bucket"),
+                };
+            }
+        } else if (!userResult.success) {
             return {
                 success: false,
                 data: null,
-                error: new Error("Failed to find user: " + userError.message)
-            }
+                error: new Error("Failed to find user: " + userResult.error.message),
+            };
+        } else {
+            return {
+                success: false,
+                data: null,
+                error: new Error("Unexpected null user in bucket creation"),
+            };
         }
 
-        if (user?.bucket) {
+        const bucketResult = await tryCatch(bucketModel.create({ tokens: [] }));
+
+        if (!bucketResult.success || bucketResult.data === null) {
             return {
                 success: false,
                 data: null,
-                error: new Error("User already has a bucket")
-            }
+                error: new Error("Failed to create bucket: " + (bucketResult.error?.message || "Unknown error")),
+            };
         }
 
-        const { data: bucket, error: bucketError } = await tryCatch(bucketModel.create({
-            tokens: []
-        }))
+        const updateResult = await tryCatch(
+            userModel.updateOne({ username: input.username }, { bucket: bucketResult.data._id })
+        );
 
-        if (bucketError) {
+        if (!updateResult.success) {
             return {
                 success: false,
                 data: null,
-                error: new Error("Failed to create bucket: " + bucketError.message)
-            }
+                error: new Error("Failed to assign bucket to user: " + updateResult.error.message),
+            };
         }
 
-        const { data: update, error: updateError } = await tryCatch(userModel.updateOne({ username: input.username },
-            { bucket: bucket._id }))
-
-        if (updateError) {
+        if (updateResult.data?.modifiedCount === 0) {
             return {
                 success: false,
                 data: null,
-                error: new Error("Failed to assign bucket to user: " + updateError.message)
-            }
-        }
-
-        if (update.modifiedCount === 0) {
-            return {
-                success: false,
-                data: null,
-                error: new Error("User not updated")
-            }
+                error: new Error("User not updated"),
+            };
         }
 
         return {
             success: true,
-            data: bucket,
-            error: null
-        }
+            data: bucketResult.data,
+            error: null,
+        };
     }
 
     async getBucketByUser(username: string): Promise<Result<DocumentBucket>> {
-        const { data, error } = await tryCatch(userModel.findOne({ username }).select('bucket').populate('bucket'))
+        const result = await tryCatch(
+            userModel.findOne({ username }).select("bucket").populate("bucket")
+        );
 
-        if (error) {
-            return {
-                success: false,
-                data: null,
-                error: new Error("Failed to find user: " + error.message)
+        if (result.success && result.data !== null) {
+            const bucket = result.data.bucket;
+
+            if (!bucket) {
+                return {
+                    success: false,
+                    data: null,
+                    error: new Error("User has no bucket assigned"),
+                };
             }
-        }
 
-        if (!data) {
-            return {
-                success: false,
-                data: null,
-                error: new Error("User not found")
+            if (bucket instanceof Document) {
+                return {
+                    success: true,
+                    data: bucket as DocumentBucket,
+                    error: null,
+                };
             }
-        }
 
-        const bucket = data.bucket
-
-        if (!bucket) {
             return {
                 success: false,
                 data: null,
-                error: new Error("User has no bucket assigned")
+                error: new Error("Unexpected bucket format - not a populated document"),
             };
         }
 
-        if (bucket instanceof Document) {
+        if (!result.success) {
             return {
-                success: true,
-                data: bucket as DocumentBucket,
-                error: null
+                success: false,
+                data: null,
+                error: new Error("Failed to find user: " + result.error.message),
             };
         }
 
         return {
             success: false,
             data: null,
-            error: new Error("Unexpected bucket format - not a populated document")
+            error: new Error("Unexpected null user when fetching bucket"),
         };
     }
-
-    async fillBucket() {
-
-    }
+    /*     async fillBucket() {
+    
+        } */
     //fill bucket
 
     //update bucket
