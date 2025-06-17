@@ -48,7 +48,7 @@ export class AuthService {
 
         const updateUser = await this.userService.updateUser({ username, password: getUser.password, accessToken })
 
-        const bucket = await this.bucketService.create(updateUser)
+        const bucket = await this.bucketService.create(updateUser.data)
 
         if (!bucket.success) {
             return {
