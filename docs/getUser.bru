@@ -7,12 +7,16 @@ meta {
 post {
   url: http://localhost:3000/graphql
   body: graphql
-  auth: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZ2FicmkxIiwiaWF0IjoxNzUwMjgxNTE4LCJleHAiOjE3NTAyODUxMTh9.WdODDCZ7G6MbCGQPMoz2w4d2kwnjNXG4PqgAYUrCnS0
 }
 
 body:graphql {
   query {
-    getUser(username: "teste4") {
+    getUser(username: "gabri1") {
       username
       password
       accessToken
