@@ -90,7 +90,9 @@ export class AuthService {
             };
         }
 
-        if (!updateUser.data.bucket) {
+        const bucketCheck = await this.bucketService.getBucketByUser(username)
+
+        if (!bucketCheck.success) {
             const bucket = await this.bucketService.create(updateUser.data)
 
             if (!bucket.success) {
@@ -100,9 +102,14 @@ export class AuthService {
                     error: bucket.error
                 }
             }
+
+            await this.bucketService.fillBucket(username)
+
+        } else if (bucketCheck.success && bucketCheck.data.tokens.length === 0) {
+            await this.bucketService.fillBucket(username)
+            
         }
 
-        //fill bucket
         return {
             success: true,
             data: { accessToken },
