@@ -90,13 +90,15 @@ export class AuthService {
             };
         }
 
-        const bucket = await this.bucketService.create(updateUser.data)
+        if (!updateUser.data.bucket) {
+            const bucket = await this.bucketService.create(updateUser.data)
 
-        if (!bucket.success) {
-            return {
-                success: bucket.success,
-                data: null,
-                error: bucket.error
+            if (!bucket.success) {
+                return {
+                    success: bucket.success,
+                    data: null,
+                    error: bucket.error
+                }
             }
         }
 

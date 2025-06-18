@@ -23,11 +23,7 @@ export const resolvers = {
             { req, res }: GraphqlContext
         ) => {
             const result = await authService.login(username, password)
-            return {
-                success: result.success,
-                data: result.data,
-                error: result.error
-            }
+           return result 
         }
     },
 
